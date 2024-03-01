@@ -19,40 +19,58 @@ struct ContentView: View
     {
         ZStack
         {
-            LinearGradient(colors: [.indigo, .teal], startPoint: .top, endPoint: .bottom)
+            RadialGradient(stops: [
+                .init(color: Color(red: 0.1, green: 0.2, blue: 0.45), location: 0.3),
+                .init(color: Color(red: 0.15, green: 0.76, blue: 0.90), location: 0.3)],
+                center: .top,
+                startRadius: 200, 
+                endRadius: 700)
                 .ignoresSafeArea();
             
-            VStack(spacing: 30)
+            VStack 
             {
-                VStack
-                {
-                    Text("Tap the Flag of")
-                        .foregroundStyle(.white)
-                        .font(.subheadline.weight(.heavy));
-                    
-                    Text(countries[correctAnswer])
-                        .foregroundStyle(.white)
-                        .font(.largeTitle.weight(.semibold));
-                }
+                Text("Guess the Flag")
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white);
                 
+                Spacer();
                 
-                ForEach(0..<3)
+                VStack(spacing: 15)
                 {
-                    number in
-                    
-                    Button
+                    VStack
                     {
-                        flagTapped(number);
-                    }
-                label:
-                    {
-                        Image(countries[number])
-                            .clipShape(.capsule)
-                            .shadow(radius: 5);
+                        Text("Tap the Flag of")
+                            .foregroundStyle(.secondary)
+                            .font(.subheadline.weight(.heavy));
+                        
+                        Text(countries[correctAnswer])
+                            .foregroundStyle(.secondary)
+                            .font(.largeTitle.weight(.semibold));
                     }
                     
+                    ForEach(0..<3)
+                    {
+                        number in
+                        
+                        Button
+                        {
+                            flagTapped(number);
+                        }
+                    label:
+                        {
+                            Image(countries[number])
+                                .clipShape(.capsule)
+                                .shadow(radius: 5);
+                        }
+                        
+                    }
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(.regularMaterial)
+                .clipShape(.rect(cornerRadius: 20))
             }
+            .padding();
         }
         .alert(scoreTitle, isPresented: $showingScore)
         {
@@ -60,7 +78,12 @@ struct ContentView: View
         }
     message:
         {
+            Spacer();
+            Spacer();
+            
             Text("Your score is ???");
+            
+            Spacer();
         }
     }
     
