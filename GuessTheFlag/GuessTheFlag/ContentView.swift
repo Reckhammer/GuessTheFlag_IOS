@@ -10,7 +10,10 @@ import SwiftUI
 struct ContentView: View 
 {
     @State private var showingScore = false;
+    
+    @State private var score = 0;
     @State private var scoreTitle = "";
+    @State private var scoreMsg = "";
     
     @State var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Spain", "UK", "US"].shuffled();
     @State var correctAnswer = Int.random(in: 0...2);
@@ -69,6 +72,12 @@ struct ContentView: View
                 .padding(.vertical, 20)
                 .background(.regularMaterial)
                 .clipShape(.rect(cornerRadius: 20))
+                
+                Spacer();
+                
+                Text("\(score)")
+                    .foregroundStyle(.white)
+                    .font(.largeTitle.weight(.semibold));
             }
             .padding();
         }
@@ -81,7 +90,7 @@ struct ContentView: View
             Spacer();
             Spacer();
             
-            Text("Your score is ???");
+            Text(scoreMsg);
             
             Spacer();
         }
@@ -92,12 +101,14 @@ struct ContentView: View
         if number == correctAnswer
         {
             scoreTitle = "Correct";
+            score += 1;
         }
         else
         {
             scoreTitle = "Wrong";
         }
         
+        scoreMsg = "That is the flag of \(countries[number])";
         showingScore = true;
     }
     
